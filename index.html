@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>简单聊天室</title>
+</head>
+<body>
+	<div id="msg"></div>
+	<input type="text" name="" value="" placeholder="" id="text">
+	<input type="button" name="" value="提交" id ="t">
+</body>
+<script type="text/javascript">
+	var msg = document.getElementById('msg');		
+	var ws = new WebSocket('ws://47.94.147.221:9501');
+	var t = document.getElementById('t');
+	ws.onopen = function(){
+		if(ws.readyState == 1){
+			msg.innerHTML = '连接成功<br>';
+		}
+	}
+	t.onclick = function(){
+		var text = document.getElementById('text');
+		var content = text.value;
+		text.value = '';
+		ws.send(content);
+	}
+
+	ws.onmessage = function(ev){
+		msg.innerHTML += ev.data;
+	}
+
+</script>
+</html>
